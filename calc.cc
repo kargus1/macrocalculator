@@ -1,7 +1,4 @@
 #include "calc.h"
-//test
-//test2
-using namespace std;
 
 vector<food> readfile(vector<food> &foods)
 {
@@ -21,62 +18,138 @@ vector<food> readfile(vector<food> &foods)
     return foods;
 }
 
-int main()
+int menu()
 {
+    int temp;
+    cout << "Vad vill du göra?" << endl
+         << "1. Nytt inlägg" << endl
+         << "0. Stäng programmet" << endl;
+    cin >> temp;
+    return temp;
+}
+
+void enterfoods(vector<food> &foods)
+{
+    vector<pair<string, int>> food;
+    string ts;
+    int ti;
     while (true)
     {
-        vector<food> foods;
-        readfile(foods);
-        cout << "~~~~~~~~~~ KALKYLATORN ~~~~~~~~~~" << endl;
-        /*cout << "ANGE INGREDIENS: ";
-        activechoice = true;
-        while (activechoice)
+        cout << "Ange ingrediens: ";
+        cin >> ts;
+        for (const auto &temp : foods)
         {
-            cin >> ingredient;
-            activechoice = false;
-        }
-
-        cout << "ANGE VIKT: ";
-        activechoice = true;
-        while (activechoice)
-        {
-            cin >> weight;
-            activechoice = false;
-        }
-
-        cout << "DU HAR ANGIVIT " << weight << "g " << ingredient << ". Stämmer det?" << endl;
-        cout << "1. Ja" << endl;
-        cout << "2. Nej" << endl;
-        activechoice = true;
-        while (activechoice)
-        {
-            cin >> choice;
-            if (choice == 1)
+            if (temp.name == ts)
             {
-                for (const auto &food : foods)
-                {
-                    if (food.name == ingredient)
-                    {
-                        cout << "PROTEIN: " << food.protein * weight << "g" << endl;
-                        cout << "FIBRE: " << food.fibre * weight << "g" << endl;
-                        cout << "FAT: " << food.fat * weight << "g" << endl;
-                        break;
-                    }
-                }
-                activechoice = false;
-            }
-            else if (choice == 2)
-            {
-                activechoice = false;
                 break;
             }
             else
             {
-                cout << "ANGE KORREKT VAL" << endl;
+                cout << "Ange korrekt ingrediens" << endl;
+                break;
             }
         }
-
-        active = false;*/
+        break;
     }
-    return 0;
+    while (true)
+    {
+        cout << "Ange vikt i gram: ";
+        cin >> ti;
+        if (ti < 0 or ti > 2000)
+        {
+            cout << "Ange korrekt vikt i gram" << endl;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    // FORTSÄTT HÄR !!!!!!!!!!!!!!!!!!!!!!!!!!!
+}
+
+void createentry(int day, int month, int year, vector<food> &foods)
+{
+    string filename = "./entries/" + to_string(day) + "-" + to_string(month) + "-" + to_string(year) + ".txt";
+    ofstream output(filename);
+    output.close();
+    // LÄGG TILL OM DAGEN REDAN FINNS
+    enterfoods(foods);
+}
+
+void newentry(std::vector<food> &foods)
+{
+    int day, month, year;
+    bool leapyear;
+    cout << "Ange dagens datum" << endl;
+    while (true)
+    {
+        cout << "År: ";
+        cin >> year;
+        if (year < 2024 or year > 2100)
+        {
+            cout << "Ange giltigt år i formatet xxxx" << endl;
+        }
+        else
+        {
+            if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))
+            {
+                leapyear = true;
+            }
+            else
+            {
+                leapyear = false;
+            }
+            break;
+        }
+    }
+    while (true)
+    {
+        cout << "Månad: ";
+        cin >> month;
+        if (month < 1 or month > 12)
+        {
+            cout << "Ange giltig månad i formatet xx" << endl;
+        }
+        else
+        {
+            break;
+        }
+    }
+    while (true)
+    {
+        cout << "Dag: ";
+        cin >> day;
+        if (day < 1 or day > 31)
+        {
+            cout << "Ange giltig dag i formatet xx" << endl;
+        }
+        else
+        {
+            if (month == 4 or month == 6 or month == 9 or month == 11 and day > 30)
+            {
+                cout << "Ange giltig dag i formatet xx" << endl;
+            }
+            else if (month == 2 and day > 28)
+            {
+                if (!leapyear)
+                {
+                    cout << "Ange giltig dag i formatet xx" << endl;
+                }
+                else if (leapyear and day > 29)
+                {
+                    cout << "Ange giltig dag i formatet xx" << endl;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    createentry(day, month, year, foods);
 }
