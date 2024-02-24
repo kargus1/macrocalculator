@@ -1,5 +1,6 @@
 #include "calc.h"
 //test
+//test2
 using namespace std;
 
 vector<food> readfile(vector<food> &foods)
