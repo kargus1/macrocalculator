@@ -1,0 +1,3 @@
+kycklingbröst 2 0 1
+ris 4 0 1
+broccoli 2 2 2
