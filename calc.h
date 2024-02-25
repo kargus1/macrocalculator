@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <filesystem>
 
 using namespace std;
 
@@ -14,12 +15,13 @@ struct food
     float protein;
     float fibre;
     float fat;
+    float carbs;
 };
 
-vector<food> readfile(vector<food> &foods);
+bool bin();
 int menu();
-void newentry(vector<food> &foods);
-void createentry(int day, int month, int year);
-void enterfoods(vector<food> &foods);
+string date();
+bool createentry(string);
+bool calculatefoods(vector<food>, string);
 
 #endif
